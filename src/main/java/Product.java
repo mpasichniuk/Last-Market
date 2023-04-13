@@ -20,7 +20,7 @@ public class Product {
         private LocalDateTime updatedAt;
 
         @ManyToOne(fetch = FetchType.LAZY)
-        private Category category;
+        private String category;
 
         @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
         private List<Review> reviews;
@@ -82,4 +82,9 @@ public class Product {
  public void setUpdatedAt(LocalDateTime updatedAt){
         this.updatedAt = updatedAt;
  }
+
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
 }
