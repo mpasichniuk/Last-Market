@@ -1,33 +1,52 @@
-import org.springframework.http.HttpStatus;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
+@RequestMapping("/product")
 public class ProductController {
 
+    private final ProductService productService;
 
-        private final ProductRepository productRepository;
-        private final CategoryRepository categoryRepository;
-        private final ReviewRepository reviewRepository;
-
-        public ProductController(ProductRepository productRepository, CategoryRepository categoryRepository,
-                                 ReviewRepository reviewRepository) {
-            this.productRepository = productRepository;
-            this.categoryRepository = categoryRepository;
-            this.reviewRepository = reviewRepository;
-        }
-
-        @GetMapping("/product/{id}")
-        public String product(@PathVariable Long id, Model model) {
-            Product product = productRepository.findById(id)
-                    .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
-            model.addAttribute("product", product);
-            model.addAttribute("reviews", reviewRepository.findByProductIdOrderByCreatedAtDesc(id));
-            return "product";
-        }
+    @Autowired
+    public ProductController(ProductService productService) {
+        this.productService = productService;
     }
 
+    @GetMapping("/{id}")
+    public String getProduct(@PathVariable Long id, Model model) {
+        productService.getProductById(id).ifPresent(product -> model.addAttribute("product", product));
+        return "product";
+    }
 
+    @GetMapping("/add")
+    public String addProduct(Model model) {
+        model.addAttribute("product", new Product());
+        return "addProduct";
+    }
+
+    @PostMapping("/save")
+    public String saveProduct(Product product) {
+        productService.saveProduct(product);
+        return "redirect:/product/" + product.getId();
+    }
+
+    @GetMapping("/edit/{id}")
+    public String editProduct(@PathVariable Long id, Model model) {
+        productService.getProductById(id).ifPresent(product -> model.addAttribute("product", product));
+        return "editProduct";
+    }
+
+    @PostMapping("/update")
+    public String updateProduct(Product product) {
+        productService.saveProduct(product);
+        return "redirect:/product/" + product.getId();
+    }
+
+    @GetMapping("/delete/{id}")
+    public String deleteProduct(@PathVariable Long id) {
+        productService.deleteProduct(id);
+        return "redirect:/";
+    }
+}
