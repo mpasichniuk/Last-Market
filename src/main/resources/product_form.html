@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Product - My Online Market</title>
+    <link rel="stylesheet" th:href="@{/css/product.css}">
+</head>
+
+<body>
+<h1 th:text="${product.name}"></h1>
+<p th:text="${product.description}"></p>
+<p th:text="'Price: ' + ${product.price}"></p>
+<p th:text="'Category: ' + ${product.category.name}"></p>
+
+<h2>Reviews</h2>
+<ul>
+    <li th:each="review : ${reviews}">
+        <p th:text="${review.comment}"></p>
+        <p th:text="'Posted on: ' + ${#dates.format(review.createdAt, 'dd/MM/yyyy HH:mm')}"></p>
+    </li>
+</ul>
+
+<h2>Leave a Review</h2>
+<form th:action="@{/product/{id}/review}" method="post">
+    <input type="hidden" th:name="productId" th:value="${product.id}">
+    <label>
+        Comment:
+        <textarea name="comment"></textarea>
+    </label>
+    <button type="submit">Submit Review</button>
+</form>
+
+<script th:src="@{/js/product.js}"></script>
+</body>
+
+</html>
