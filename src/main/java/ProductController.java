@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/product")
 public class ProductController {
 
+
     private final ProductService productService;
 
     @Autowired
@@ -15,8 +16,8 @@ public class ProductController {
     }
 
     @GetMapping("/{id}")
-    public String getProduct(@PathVariable Long id, Model model) {
-        productService.getProductById(id).ifPresent(product -> model.addAttribute("product", product));
+    public String getProduct(@PathVariable Long id, Model model)  {
+        productService.getProductById(id).ifPresent(model.addAttribute("product"));
         return "product";
     }
 
@@ -34,7 +35,7 @@ public class ProductController {
 
     @GetMapping("/edit/{id}")
     public String editProduct(@PathVariable Long id, Model model) {
-        productService.getProductById(id).ifPresent(product -> model.addAttribute("product", product));
+        productService.getProductById(id).ifPresent(model.addAttribute("product"));
         return "editProduct";
     }
 

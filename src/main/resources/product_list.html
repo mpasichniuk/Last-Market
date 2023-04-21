@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="layout :: layout (~{::content})">
+<head>
+    <title>Product List</title>
+</head>
+<body>
+<div class="product-list">
+    <h1>Product List</h1>
+    <ul>
+        <li th:each="product : ${products}">
+            <a th:href="@{/product/{id}(id=${product.id})}" th:text="${product.name}"></a>
+            <span th:text="${product.price}"></span>
+            <span th:text="${product.category}"></span>
+            <span th:text="${product.reviews}"></span>
+        </li>
+    </ul>
+</div>
+</body>
+</html>
