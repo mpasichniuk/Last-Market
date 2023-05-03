@@ -10,10 +10,10 @@ The service allows you to manage the life cycle of tasks, namely:
 Add, edit quantity, remove products from cart.
 
 
-User authentication.
+com.market.User authentication.
 
 
-User profiles.
+com.market.User profiles.
 
 
 Putting down ratings for products, where 5 stars - quality, and 1 - it is better not to buy.
