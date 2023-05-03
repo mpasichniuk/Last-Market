@@ -1,7 +1,12 @@
+import com.market.Product;
+import com.market.controllers.ProductController;
+import com.market.ProductService;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
@@ -12,7 +17,8 @@ import java.util.List;
 
 import static org.mockito.Mockito.when;
 
-@WebMvcTest(ProductController.class)
+@ExtendWith({SpringExtension.class})
+@SpringBootTest(classes=ProductController.class)
 public class ProductTest {
 
     @Autowired
@@ -25,12 +31,11 @@ public class ProductTest {
     public void testGetProductById() throws Exception {
         Product product = new Product();
         product.setId(1L);
-        product.setName("Test Product");
+        product.setName("Test com.market.Product");
         product.setDescription("This is a test product");
         product.setPrice(BigDecimal.valueOf(9.99));
-        product.setCategory("Test Category");
 
-        when(productService.getProductById(1L)).thenReturn(java.util.Optional.of(product));
+        when(productService.getProductById(1L)).thenReturn(product);
 
 
         mockMvc.perform(MockMvcRequestBuilders.get("/product/1"))
@@ -44,25 +49,23 @@ public class ProductTest {
         List<Product> products = new ArrayList<>();
         Product product1 = new Product();
         product1.setId(1L);
-        product1.setName("Test Product 1");
+        product1.setName("Test com.market.Product 1");
         product1.setDescription("This is a test product 1");
         product1.setPrice(BigDecimal.valueOf(9.99));
-        product1.setCategory("Test Category");
 
         Product product2 = new Product();
         product2.setId(2L);
-        product2.setName("Test Product 2");
+        product2.setName("Test com.market.Product 2");
         product2.setDescription("This is a test product 2");
         product2.setPrice(BigDecimal.valueOf(19.99));
-        product2.setCategory("Test Category");
 
         products.add(product1);
         products.add(product2);
 
-        when(productService.getProductsByCategory("Test Category")).thenReturn(products);
+        when(productService.getProductsByCategory("Test com.market.Category")).thenReturn(products);
 
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/product/category/Test Category"))
+        mockMvc.perform(MockMvcRequestBuilders.get("/product/category/Test com.market.Category"))
 
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.model().attribute("products", products))

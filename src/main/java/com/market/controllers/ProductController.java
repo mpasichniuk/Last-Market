@@ -1,7 +1,15 @@
+package com.market.controllers;
+
+import com.market.Product;
+import com.market.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.ProductNotFoundException;
 
 @Controller
 @RequestMapping("/products")
@@ -16,7 +24,7 @@ public class ProductController {
     }
 
     @GetMapping("/{id}")
-    public String getProduct(@PathVariable Long id, Model model)  {
+    public String getProduct(@PathVariable Long id, Model model) throws ProductNotFoundException {
         productService.getProductById(id).ifPresent(model.addAttribute("product"));
         return "product";
     }
@@ -34,7 +42,7 @@ public class ProductController {
     }
 
     @GetMapping("/edit/{id}")
-    public String editProduct(@PathVariable Long id, Model model) {
+    public String editProduct(@PathVariable Long id, Model model) throws ProductNotFoundException {
         productService.getProductById(id).ifPresent(model.addAttribute("product"));
         return "editProduct";
     }

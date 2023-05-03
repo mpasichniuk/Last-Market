@@ -1,3 +1,5 @@
+package com.market;
+
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;

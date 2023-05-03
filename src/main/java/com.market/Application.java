@@ -1,6 +1,9 @@
+package com.market;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -9,9 +12,11 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import java.ProductNotFoundException;
 import java.util.List;
 
 @SpringBootApplication
+@ComponentScan(basePackages = "com.market")
 public class Application {
 
     public static void main(String[] args) {
@@ -27,26 +32,6 @@ public class Application {
         }
     }
 
-    @Controller
-    public class ProductController {
-
-        @Autowired
-        private ProductService productService;
-
-        @GetMapping("/products")
-        public String getAllProducts(Model model) {
-            List<Product> products = productService.getAllProducts();
-            model.addAttribute("products", products);
-            return "product";
-        }
-
-        @GetMapping("/product/{id}")
-        public String getProductById(@PathVariable(value = "id") Long id, Model model){
-            Product product = productService.getProductById(id);
-            model.addAttribute("product", product);
-            return "product_form";
-        }
-    }
 
     @Controller
     public class AuthenticationController {
@@ -75,7 +60,7 @@ public class Application {
                 userService.save(user);
                 return "redirect:/login";
             } catch (UserAlreadyExistsException e) {
-                model.addAttribute("error", "User with email " + user.getEmail() + " already exists!");
+                model.addAttribute("error", "com.market.User with email " + user.getEmail() + " already exists!");
                 return "register";
             }
         }

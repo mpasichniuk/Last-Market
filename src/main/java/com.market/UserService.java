@@ -1,3 +1,5 @@
+package com.market;
+
 import java.util.Arrays;
 import java.util.HashSet;
 
@@ -17,7 +19,7 @@ public class UserService {
 
     public void registerNewUser(User user) throws UserAlreadyExistsException {
         if (userRepository.findUserByUsername(user.getUsername()) != null) {
-            throw new UserAlreadyExistsException("User already exists with username: " + user.getUsername());
+            throw new UserAlreadyExistsException("com.market.User already exists with username: " + user.getUsername());
         }
         user.setRoles(new HashSet<>(Arrays.asList(Role.USER)));
         user.setPassword(passwordEncoder.encode(user.getPassword()));
