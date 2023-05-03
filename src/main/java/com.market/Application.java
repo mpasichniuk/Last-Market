@@ -32,6 +32,26 @@ public class Application {
         }
     }
 
+    @Controller
+    public class ProductController {
+
+        @Autowired
+        private ProductService productService;
+
+        @GetMapping("/products")
+        public String getAllProducts(Model model) {
+            List<Product> products = productService.getAllProducts();
+            model.addAttribute("products", products);
+            return "product";
+        }
+
+        @GetMapping("/product/{id}")
+        public String getProductById(@PathVariable(value = "id") Long id, Model model) throws ProductNotFoundException {
+            Product product = productService.getProductById(id);
+            model.addAttribute("product", product);
+            return "product_form";
+        }
+    }
 
     @Controller
     public class AuthenticationController {
