@@ -1,3 +1,11 @@
 # Default ignored files
 /shelf/
 /workspace.xml
+.idea/
+compiler.xml
+jarRepositories.xml
+modules.xml
+libraries/
+jpa-buddy.xml
+runConfigurations.xml
+vcs.xml
