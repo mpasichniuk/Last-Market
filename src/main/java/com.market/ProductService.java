@@ -2,7 +2,7 @@ package com.market;
 
 import org.springframework.stereotype.Service;
 
-import java.ProductNotFoundException;
+import exceptions.ProductNotFoundException;
 import java.util.List;
 
 @Service

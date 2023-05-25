@@ -3,6 +3,7 @@ package com.market;
 import java.util.Arrays;
 import java.util.HashSet;
 
+import exceptions.UserAlreadyExistsException;
 import org.h2.engine.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;

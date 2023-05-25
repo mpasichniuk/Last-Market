@@ -2,6 +2,7 @@ package com.market;
 
 import javax.persistence.*;
 import java.util.HashSet;
+import java.util.List;
 
 @Entity
 @Table(name = "users")
@@ -21,6 +22,9 @@ public class User {
 
     @Transient
     private String confirmPassword;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<CartItem> cartItems;
 
     public User() {
     }

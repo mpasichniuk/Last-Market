@@ -1,21 +1,30 @@
 package com.market.controllers;
 
-import com.market.User;
-import com.market.UserService;
+import com.market.*;
+import exceptions.ProductNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
+
+import java.security.Principal;
+import java.util.List;
 
 @Controller
 public class AuthController {
 
     @Autowired
     private UserService userService;
+    private CartService cartService;
+    private ProductService productService;
+
+    public AuthController(UserService userService, ProductService productService, CartService cartService) {
+        this.userService = userService;
+        this.productService = productService;
+        this.cartService = cartService;
+    }
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -50,4 +59,31 @@ public class AuthController {
         }
         return "register";
     }
-}
+            @GetMapping("/cart")
+            public String viewCart(Model model, Principal principal) {
+                User user = userService.findUserByUsername(principal.getName());
+                List<CartItem> cartItems = cartService.getCartItemsForUser(user);
+                model.addAttribute("cartItems", cartItems);
+                return "cart";
+            }
+
+            @PostMapping("/cart/add")
+            public String addToCart(@RequestParam("productId") Long productId, @RequestParam("quantity") int quantity, Principal principal) throws ProductNotFoundException {
+                User user = userService.findUserByUsername(principal.getName());
+                Product product = productService.getProductById(productId);
+                cartService.addToCart(user, product, quantity);
+                return "redirect:/cart";
+            }
+
+            @PostMapping("/cart/remove/{cartItemId}")
+            public String removeFromCart(@PathVariable("cartItemId") Long cartItemId) {
+                cartService.removeFromCart(cartItemId);
+                return "redirect:/cart";
+            }
+
+
+        }
+
+
+
+
