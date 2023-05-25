@@ -1,3 +1,5 @@
+package com.market;
+
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -20,7 +22,7 @@ public class Product {
         private LocalDateTime updatedAt;
 
         @ManyToOne(fetch = FetchType.LAZY)
-        private String category;
+        private Category category;
 
         @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
         private List<Review> reviews;
@@ -83,8 +85,6 @@ public class Product {
         this.updatedAt = updatedAt;
  }
 
-
-    public void setCategory(String category) {
-        this.category = category;
+    public void ifPresent(Object product) {
     }
 }

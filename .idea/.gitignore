@@ -2,3 +2,15 @@
 /shelf/
 /workspace.xml
 .idea/
+.gitignore
+compiler.xml
+jarRepositories.xml
+jpa-buddy.xml
+Last-Market.iml
+misc.xml
+modules.xml
+runConfigurations.xml
+uiDesigner.xml
+workspace.xml
+libraries/
+.target/
