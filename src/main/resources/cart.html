@@ -6,44 +6,21 @@
 <body>
 <h1>Cart</h1>
 
-<div th:if="${cart.items.size() == 0}">
-  <p>Your cart is empty.</p>
-</div>
+<table>
+  <thead>
+  <tr>
+    <th>Name</th>
+    <th>Price</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:each="item : ${cartItems}">
+    <td th:text="${item.name}"></td>
+    <td th:text="${item.price}"></td>
+  </tr>
+  </tbody>
+</table>
 
-<div th:if="${cart.items.size() > 0}">
-  <table>
-    <thead>
-    <tr>
-      <th>Product Name</th>
-      <th>Quantity</th>
-      <th>Price</th>
-      <th>Total</th>
-      <th></th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="item : ${cart.items}">
-      <td th:text="${item.product.name}"></td>
-      <td th:text="${item.quantity}"></td>
-      <td th:text="${item.product.price}"></td>
-      <td th:text="${item.total}"></td>
-      <td>
-        <form th:action="@{/cart/remove}" method="post">
-          <input type="hidden" name="productId" th:value="${item.product.id}" />
-          <button type="submit">Remove</button>
-        </form>
-      </td>
-    </tr>
-    </tbody>
-    <tfoot>
-    <tr>
-      <td colspan="3">Total Amount:</td>
-      <td th:text="${cart.totalAmount}"></td>
-      <td></td>
-      <a href="/checkout">Proceed to Checkout</a>
-    </tr>
-    </tfoot>
-  </table>
-</div>
+<a href="/payment">Proceed to Payment</a>
 </body>
 </html>

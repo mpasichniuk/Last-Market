@@ -1,6 +1,7 @@
 import com.market.Product;
 import com.market.controllers.ProductController;
 import com.market.ProductService;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,10 +27,15 @@ public class ProductTest {
 
     @MockBean
     private ProductService productService;
+    Product product;
+
+    @BeforeEach
+    void setUp() {
+        product = new Product(product.getId(), product.getName(), product.getPrice());
+    }
 
     @Test
     public void testGetProductById() throws Exception {
-        Product product = new Product();
         product.setId(1L);
         product.setName("Test com.market.Product");
         product.setDescription("This is a test product");
@@ -47,13 +53,13 @@ public class ProductTest {
     @Test
     public void testGetProductsByCategory() throws Exception {
         List<Product> products = new ArrayList<>();
-        Product product1 = new Product();
+        Product product1 = new Product(product.getId(), product.getName(), product.getPrice());
         product1.setId(1L);
         product1.setName("Test com.market.Product 1");
         product1.setDescription("This is a test product 1");
         product1.setPrice(BigDecimal.valueOf(9.99));
 
-        Product product2 = new Product();
+        Product product2 = new Product(product.getId(), product.getName(), product.getPrice());
         product2.setId(2L);
         product2.setName("Test com.market.Product 2");
         product2.setDescription("This is a test product 2");

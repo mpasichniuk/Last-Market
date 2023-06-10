@@ -15,6 +15,7 @@ public class ProductController {
 
 
     private final ProductService productService;
+    private Product product;
 
     @Autowired
     public ProductController(ProductService productService) {
@@ -29,7 +30,7 @@ public class ProductController {
 
     @GetMapping("/add")
     public String addProduct(Model model) {
-        model.addAttribute("product", new Product());
+        model.addAttribute("product", new Product(product.getId(), product.getName(), product.getPrice()));
         return "addProduct";
     }
 

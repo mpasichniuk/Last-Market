@@ -1,6 +1,7 @@
 package com.market;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 public class CartItem {
@@ -13,19 +14,23 @@ public class CartItem {
 
     @ManyToOne
     private Product product;
+    @ManyToOne
+    private Cart cart;
 
     private int quantity;
     private double total;
 
-  public CartItem(){
+    public CartItem() {
 
-  }
+    }
+
     public CartItem(Long id, int quantity, double total) {
         this.id = id;
         this.quantity = quantity;
         this.total = total;
 
     }
+
     public Long getId() {
         return id;
     }
@@ -33,6 +38,7 @@ public class CartItem {
     public void setId(Long id) {
         this.id = id;
     }
+
     public int getQuantity() {
         return quantity;
     }
@@ -50,5 +56,19 @@ public class CartItem {
     public double getTotal() {
         return total;
     }
-}
+
+    public List<Long> getCartItems() {
+        return cart.getProducts();
+    }
+
+    public static <R> R getProductId(CartItem cartItem) {
+        return (R) cartItem.getProduct().getId();
+    }
+
+    private Product getProduct() {
+            return product;
+        }
+
+    }
+
 

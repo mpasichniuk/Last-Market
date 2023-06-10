@@ -23,12 +23,14 @@ public class Product {
 
         @ManyToOne(fetch = FetchType.LAZY)
         private Category category;
+    @ManyToOne
+    private Currency currency;
+
 
         @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
         private List<Review> reviews;
 
-    public Product() {
-    }
+    public Product() {}
 
     public Product(Long id, String name, String description, BigDecimal price, LocalDateTime createdAt, LocalDateTime updatedAt) {
         this.id = id;
@@ -37,6 +39,9 @@ public class Product {
         this.price = price;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
+    }
+
+    public Product(Long id, String name, BigDecimal price) {
     }
 
     public Long getId() {
