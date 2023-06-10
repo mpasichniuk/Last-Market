@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Payment</title>
+</head>
+<body>
+<h1>Payment</h1>
+
+<table>
+  <thead>
+  <tr>
+    <th>Name</th>
+    <th>Price ({{selectedCurrency.symbol}})</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:each="item : ${cartItems}">
+    <td th:text="${item.name}"></td>
+    <td th:text="${item.getPriceInCurrency(selectedCurrency)}"></td>
+  </tr>
+  </tbody>
+</table>
+
+<h3>Total Price: {{totalPriceInSelectedCurrency}} {{selectedCurrency.symbol}}</h3>
+
+<form action="/payment" method="post">
+  <select name="currencyId">
+    <option th:each="currency : ${currencies}" th:value="${currency.id}" th:text="${currency.name}"></option>
+  </select>
+  <button type="submit">Process Payment</button>
+</form>
+</body>
+</html>
