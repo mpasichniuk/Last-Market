@@ -12,16 +12,20 @@ public class CartService {
 
     private ProductService productService;
     private final CartItemRepository cartItemRepository;
+    private List<Product> recentlyViewedProducts;
+
+
 
     @Autowired
-    public void setProductService(ProductService productService) {
-        this.productService = productService;
-    }
     public CartService(CartItemRepository cartItemRepository) {
         this.cartItemRepository = cartItemRepository;
+        this.recentlyViewedProducts = new ArrayList<>();
     }
+
     private final Cart cart = new Cart();
     private final List<Long> cartItemIds = new ArrayList<>();
+
+
 
 
     public List<CartItem> getCartItemsForUser(User user) {
@@ -34,6 +38,15 @@ public class CartService {
         cartItem.setProduct(product);
         cartItem.setQuantity(quantity);
         cartItemRepository.save(cartItem);
+    }
+
+    public void addRecentlyViewedProduct(Product product) {
+        if (!recentlyViewedProducts.contains(product)) {
+            recentlyViewedProducts.add(product);
+        }
+    }
+    public List<Product> getRecentlyViewedProducts() {
+        return recentlyViewedProducts;
     }
 
     public void removeFromCart(Long cartItemId) {
